@@ -50,9 +50,9 @@ OBJS = analisis.o varis.o avaluacio.o utils.o temps.o es.o \
 optimize = yes
 debug = no
 sanitize = no
-bits = 64
+bits = 32
 prefetch = yes
-popcnt = yes
+popcnt = no
 sse = yes
 pext = no
 
