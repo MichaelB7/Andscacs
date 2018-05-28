@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 #ifdef LINUX
-//#include <time.h>   //nanosleep
+#include <time.h>   //nanosleep
 #endif
 
 int NumThreads=1;
@@ -28,7 +28,7 @@ void inicialitzar_threads(){
 	struct timespec ts;
 	ts.tv_sec = 0; //milliseconds / 1000;
 	ts.tv_nsec = 100000; //(milliseconds % 1000) * 1000000;
-	//nanosleep(&ts, NULL);
+	nanosleep(&ts, NULL);
 #endif
 
 	for (i = 0; i < MaxThreads; i++)

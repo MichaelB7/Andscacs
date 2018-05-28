@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <chrono>
-#include <thread>
 
 #include "definicions.h"
 #include "analisis.h"
@@ -230,7 +228,6 @@ bool mirar_si_parar() {
 }
 
 parametresroot paramroot;
-void inicialitzar_threads();
 int incrementthread[MaxThreads];
 
 int numcopsavaluaciosimilar;
@@ -654,8 +651,7 @@ fianalisi:
 				Sleep(1);
 #endif
 #ifdef LINUX
-				//nanosleep(&ts, NULL);
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				nanosleep(&ts, NULL);
 #endif
 			}
 		}
@@ -669,8 +665,7 @@ fipertb:
 			Sleep(1);
 #endif
 #ifdef LINUX
-			//nanosleep(&ts, NULL);
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			nanosleep(&ts, NULL);
 #endif
 			if (entrada_pendent())
 				comandes_uci(false);
@@ -784,8 +779,7 @@ void proces_thread(void *param) {
 				Sleep(1);
 #endif
 #ifdef LINUX
-				//nanosleep(&ts, NULL);
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+				nanosleep(&ts, NULL);
 #endif
 			}
 		} while (true);
