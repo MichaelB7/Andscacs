@@ -1,0 +1,68 @@
+
+EXE = andscacs
+
+OBJECTS =  analisis.cpp varis.cpp avaluacio.cpp utils.cpp temps.cpp es.cpp \
+	andscacs.cpp moviments.cpp debug.cpp finals.cpp finalsllargs.cpp hash.cpp \
+	thread.cpp mtwist.cpp magics.cpp
+
+# rules
+
+all: $(EXE)
+
+clean:
+	$(RM) $(OBJECTS) .depend # keep exe
+
+clean_pgo:
+	$(RM) *.profdata *.profraw \
+	$(clean)
+
+# general
+
+CXX      = clang++ #
+CXXFLAGS = -w -pipe -pthread -flto -std=c++11 -fno-rtti
+LDFLAGS  = -pthread -flto
+
+# warnings
+
+CXXFLAGS += -pedantic -Wall -Wextra
+#llvm-profdata merge -output=andscacs.profdata *.profraw
+# C++
+
+
+
+# optimisation
+CXXFLAGS +=  -Os -msse3 -Ofast -O3 -mtune=native -mpopcnt #-mbmi2 -DBMI
+
+
+clang-pro:
+	$(clean) \
+	$(CXX)  $(CXXFLAGS) -fprofile-instr-generate $(OBJECTS) -o $(EXE) \
+	$(LDFLAGS)
+
+##-pthread -flto  -fprofile-instr-generate
+
+clang-rel:
+	$(clean_pgo) \
+	llvm-profdata merge -output=andscacs.profdata *.profraw
+	$(CXX)  $(CXXFLAGS) -fprofile-instr-use=andscacs.profdata $(OBJECTS) -o $(EXE)  \
+	$(LDFLAGS)
+
+cpro:
+	$(MAKE) -j clang-pro
+	./bench.sh
+	$(MAKE) -j clang-rel
+	strip $(EXE)
+
+
+
+
+# dependencies
+
+$(EXE): $(OBJECTSS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS)
+
+.depend:
+	$(CXX) $(CXXFLAGS) -MM $(OBJS:.o=.cpp) > $@
+
+include .depend
+
