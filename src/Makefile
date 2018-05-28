@@ -53,7 +53,7 @@ sanitize = no
 bits = 32
 prefetch = no
 popcnt = no
-sse = yes
+sse = no
 pext = no
 
 ### 2.2 Architecture specific
@@ -103,7 +103,7 @@ endif
 
 ifeq ($(ARCH),armv7)
 	arch = armv7
-	prefetch = yes
+	prefetch = no
 endif
 
 ifeq ($(ARCH),ppc-32)
